@@ -1,0 +1,59 @@
+# General application settings
+app:
+  name: "Pythagoras"
+  version: "1.0.0"
+
+# Database connection settings
+database:
+  db_type: "sqlite" # 支持: sqlite, postgresql, mysql
+  host: "localhost"
+  port: 5432
+  user: "user"
+  password: "password"
+  dbname: "pythagoras_db.sqlite" # 对于 sqlite, 这是文件名
+
+# Large Language Model settings
+llm:
+  model: "gpt-4-turbo"
+  # API Key is loaded from .env file for security
+  base_url: "https://api.openai.com/v1"
+  temperature: 0.0 # Keep it low for deterministic SQL generation
+  timeout: 60 # Request timeout in seconds
+
+# Cache settings
+cache:
+  max_size: 1000 # Max number of items in cache
+  ttl: 3600 # Time-to-live for cache items in seconds
+
+# Role-Based Access Control (RBAC) settings
+rbac:
+  roles:
+    admin:
+      description: "Full access to all data and operations."
+      allowed_tables: ["*"] # '*' means all tables
+      allowed_operations: ["SELECT", "INSERT", "UPDATE", "DELETE"]
+
+    sales_analyst:
+      description: "Can view sales-related data."
+      allowed_tables: ["orders", "products", "customers"]
+      allowed_operations: ["SELECT"]
+
+    hr_manager:
+      description: "Can view and update employee data."
+      allowed_tables: ["employees", "departments"]
+      allowed_operations: ["SELECT", "UPDATE"]
+
+# User definitions
+users:
+  # Key is the username, value contains token and roles
+  alice:
+    token: "token_for_alice_sales"
+    roles: ["sales_analyst"]
+  
+  bob:
+    token: "token_for_bob_hr"
+    roles: ["hr_manager"]
+    
+  admin:
+    token: "super_secret_admin_token"
+    roles: ["admin"]
