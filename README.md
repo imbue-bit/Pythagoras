@@ -158,6 +158,6 @@ Pythagoras 不仅仅是一个 NL-to-SQL 的转换器，它是一个为生产环�
 ---
 
 <div align="center">
-  <p><strong>Pythagoras</strong> - 让数据对话，如此简单。</p>
-  <p><sub>根据 <a href="LICENSE">Apache 2.0 许可证</a>发布。</sub></p>
+  <p><strong>Pythagoras</strong> - 让数据对话如此简单。</p>
+  <p><sub>根据 <a href="LICENSE">AGPL-3.0 许可证</a>发布。</sub></p>
 </div>
