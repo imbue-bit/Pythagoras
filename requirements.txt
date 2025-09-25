@@ -1,0 +1,11 @@
+fastapi
+uvicorn[standard]
+sqlalchemy
+# 如果使用 PostgreSQL:
+# psycopg2-binary
+# 如果使用 MySQL:
+# mysqlclient
+python-dotenv
+pyyaml
+openai
+cachetools
