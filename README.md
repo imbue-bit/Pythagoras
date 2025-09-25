@@ -10,9 +10,6 @@
     <a href="#-贡献指南">贡献指南</a>
   </p>
 
-  <p>
-    <a href="https://github.com/imbue-bit/pythagoras/actions/workflows/ci.yml"><img src="https://img.shields.io/github/actions/workflow/status/your-org/pythagoras/ci.yml?branch=main&style=for-the-badge&logo=github" alt="CI Status"></a>
-  </p>
 </div>
 
 ---
@@ -151,7 +148,7 @@ Pythagoras 不仅仅是一个 NL-to-SQL 的转换器，它是一个为生产环�
 
 有疑问？想要分享您的项目？或者只是想和志同道合的开发者交流？
 
--   **[加入我们的 QQ 群组](pass)**: 获取帮助、参与讨论和获取最新资讯。
+-   **[加入我们的 QQ 群组](https://imbue-bit.github.io/QQ-invitation/?groupid=799196185)**: 获取帮助、参与讨论和获取最新资讯。
 -   **[开启一个 GitHub Issue](https://github.com/imbue-bit/pythagoras/issues)**: 提出功能建议或分享您的想法。
 -   **[报告一个 Bug](https://github.com/your-org/pythagoras/issues/new/choose)**: 发现了问题？请告诉我们。
 
