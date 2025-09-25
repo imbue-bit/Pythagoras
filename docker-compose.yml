@@ -1,0 +1,83 @@
+version: '3.8'
+
+services:
+  # Pythagoras API Service
+  api:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: pythagoras_api
+    restart: unless-stopped
+    env_file:
+      - .env
+    ports:
+      - "${API_PORT:-8000}:8000"
+    volumes:
+      - ./app:/app/app # 开发时挂载代码，实现热重载
+      - ./config:/app/config
+      # 如果使用 SQLite，需要挂载数据卷
+      - pythagoras_sqlite_data:/app/data
+    depends_on:
+      db:
+        condition: service_healthy # 确保数据库完全启动后再启动 API 服务
+      redis:
+        condition: service_started # 确保 Redis 启动
+    networks:
+      - pythagoras_net
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8000/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+
+  # PostgreSQL Database Service (推荐用于生产)
+  # 如果您只想用 SQLite, 可以注释掉或删除这个服务
+  db:
+    image: postgres:15-alpine
+    container_name: pythagoras_db
+    restart: unless-stopped
+    env_file:
+      - .env
+    environment:
+      POSTGRES_DB: ${DB_NAME}
+      POSTGRES_USER: ${DB_USER}
+      POSTGRES_PASSWORD: ${DB_PASSWORD}
+    volumes:
+      - pythagoras_pg_data:/var/lib/postgresql/data
+    ports:
+      - "${DB_PORT:-5432}:5432" # 仅在需要从主机直接访问时暴露
+    networks:
+      - pythagoras_net
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${DB_USER} -d ${DB_NAME}"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  # Redis Cache Service (推荐用于生产)
+  # 如果您只想用内存缓存 (cachetools), 可以注释掉或删除这个服务
+  redis:
+    image: redis:7-alpine
+    container_name: pythagoras_redis
+    restart: unless-stopped
+    command: redis-server --save 60 1 --loglevel warning
+    volumes:
+      - pythagoras_redis_data:/data
+    ports:
+      - "6379:6379" # 仅在需要从主机直接访问时暴露
+    networks:
+      - pythagoras_net
+
+# Docker Volumes for data persistence
+volumes:
+  pythagoras_pg_data:
+    driver: local
+  pythagoras_redis_data:
+    driver: local
+  pythagoras_sqlite_data:
+    driver: local
+
+# Docker Network for inter-service communication
+networks:
+  pythagoras_net:
+    driver: bridge
